@@ -1,0 +1,53 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+ .wp-block-reign-news-widget {
+
+    .latest-posts-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li.latest-post-item {
+            display: flex;
+            margin: 0 0 30px;
+    
+            .latest-post-thumb img {
+                max-width: 100px !important;
+                width: 100px !important;
+                height: 100px !important;
+                max-height: 100px !important;
+                object-fit: cover;
+                margin-right: 15px;
+                border-radius: var(--reign-global-border-radius);
+            }
+    
+            .latest-post-content {
+                .post-title {
+                    font-size: 16px;
+                    margin: 0 0 5px;
+                }
+    
+                .post-author,
+                .latest-posts-date {
+                    font-size: 13px;
+                    margin: 0 0 5px;
+                }
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
