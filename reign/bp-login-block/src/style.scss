@@ -1,0 +1,19 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.registration-login-form.registration-login-form {
+	min-height: auto;
+	margin-bottom: 0;
+
+    a.register,
+    a.forgot {
+        float: none;
+        display: block;
+        font-size: 15px;
+        line-height: normal;
+        margin: 10px 0 0 0;
+    }
+}

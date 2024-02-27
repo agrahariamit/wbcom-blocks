@@ -1,0 +1,33 @@
+{
+	"apiVersion": 2,
+	"name": "reign/bp-login",
+	"title": "BP Login",
+	"category": "widgets",
+	"icon": "admin-users",
+	"description": "A block to display a BuddyPress login form with customizable options.",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "reign",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "Login"
+		},
+		"loginRedirect": {
+			"type": "string",
+			"default": "current"
+		},
+		"loginRedirectUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"loginDescription": {
+			"type": "string",
+			"default": ""
+		}
+	}
+}
