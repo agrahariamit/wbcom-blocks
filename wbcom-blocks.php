@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Birthday
+ * Wbcom Designs
  *
  * @package           wbcom-blocks
  * @author            Wbcom Design
@@ -8,7 +8,7 @@
  * @license           GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name:       BuddyPress Birthday
+ * Plugin Name:       Wbcom Designs
  * Plugin URI:        https://wbcomdesigns.com/
  * Description:       Display upcoming birthdays of your members.
  * Version:           1.0.0
@@ -56,9 +56,9 @@ class WbcomBlocks {
 	}
 
 	/**
-	 * The method you use to get the BuddyBirthday's instance.
+	 * The method you use to get the WbcomBlocks's instance.
 	 */
-	public static function get_instance() : BuddyBirthday {
+	public static function get_instance() : WbcomBlocks {
 		$cls = static::class;
 		if ( ! isset( self::$instance[ $cls ] ) ) {
 			self::$instance[ $cls ] = new static();
@@ -119,7 +119,7 @@ class WbcomBlocks {
 			array(
 				array(
 					'slug'  => 'wbcom-designs',
-					'title' => esc_html__( 'WBCOM Designs', 'wbcom-blocks' ),
+					'title' => __( 'Wbcom Designs', 'wbcom-blocks' ),
 					'icon'  => 'lightbulb', // Slug of a WordPress Dashicon or custom SVG
 				),
 			)
