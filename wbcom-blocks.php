@@ -106,6 +106,7 @@ class WbcomBlocks {
 	}
 
 	public function wbcom_blocks_block_init() {
+		register_block_type( __DIR__ . '/build/flipbox' );
 		register_block_type( __DIR__ . '/build/buddypress-birthday' );
 		register_block_type( __DIR__ . '/build/buddypress-members' );
 		register_block_type( __DIR__ . '/build/buddypress-activity-listing' );
