@@ -106,7 +106,8 @@ class WbcomBlocks {
 	}
 
 	public function wbcom_blocks_block_init() {
-		register_block_type( __DIR__ . '/build' );
+		register_block_type( __DIR__ . '/build/buddypress-birthday' );
+		register_block_type( __DIR__ . '/build/buddypress-members' );
 	}
 
 	public function wbcom_blocks_add_block_category( $block_categories, $block_editor_context ) {

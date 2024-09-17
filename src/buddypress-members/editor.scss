@@ -1,0 +1,10 @@
+/**
+ * The following styles get applied inside the editor only.*
+ */
+
+/* Grid View Styles */
+.bp-members-preview.grid {
+    display: grid;
+    grid-template-columns: repeat(var(--members-per-row, 4), 1fr);
+    gap: var(--column-spacing, 15px);
+}
