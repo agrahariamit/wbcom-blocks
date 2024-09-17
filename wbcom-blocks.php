@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name:       Wbcom Designs
  * Plugin URI:        https://wbcomdesigns.com/
- * Description:       Display upcoming birthdays of your members.
+ * Description:       The Wbcom Designs Blocks Plugin
  * Version:           1.0.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
@@ -78,10 +78,10 @@ class WbcomBlocks {
 	 * Define constans
 	 */
 	public function wbcom_blocks_setup_constants() {
-		define( 'wbcom_blocks_FILE', __FILE__ );
-		define( 'wbcom_blocks_URL', $this->get_url() );
-		define( 'wbcom_blocks_PATH', $this->get_path() );
-		define( 'wbcom_blocks_TEMPLATE_PATH', $this->get_path() . '/templates/' );
+		define( 'WBCOM_BLOCKS_FILE', __FILE__ );
+		define( 'WBCOM_BLOCKS_URL', $this->get_url() );
+		define( 'WBCOM_BLOCKS_PATH', $this->get_path() );
+		define( 'WBCOM_BLOCKS_TEMPLATE_PATH', $this->get_path() . '/templates/' );
 	}
 
 	/**
