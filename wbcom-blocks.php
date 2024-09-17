@@ -110,6 +110,7 @@ class WbcomBlocks {
 		register_block_type( __DIR__ . '/build/buddypress-birthday' );
 		register_block_type( __DIR__ . '/build/buddypress-members' );
 		register_block_type( __DIR__ . '/build/buddypress-activity-listing' );
+		register_block_type( __DIR__ . '/build/heading' );
 	}
 
 	public function wbcom_blocks_add_block_category( $block_categories, $block_editor_context ) {
