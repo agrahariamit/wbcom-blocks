@@ -16,14 +16,7 @@ $inner_spacing     = isset( $attributes['innerSpacing'] ) ? $attributes['innerSp
 $box_border_radius = isset( $attributes['boxBorderRadius'] ) ? $attributes['boxBorderRadius'] : 4;
 
 // Get members from the BuddyPress API.
-$endpoint = "/buddypress/v1/members?per_page={$limit}";
-if ( $sort_type === 'active' ) {
-	$endpoint .= '&type=active';
-} elseif ( $sort_type === 'popular' ) {
-	$endpoint .= '&type=popular';
-} elseif ( $sort_type === 'newest' ) {
-	$endpoint .= '&type=newest';
-}
+$endpoint = "/buddypress/v1/members?per_page={$limit}&type={$sort_type}";
 
 $response = wp_remote_get( rest_url( $endpoint ) );
 if ( is_wp_error( $response ) ) {

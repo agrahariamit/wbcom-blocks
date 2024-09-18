@@ -42,15 +42,7 @@ export default function Edit({ attributes, setAttributes }) {
         setIsLoading(true);
         setError(null);
 
-        let endpoint = `/buddypress/v1/members?per_page=${limit}`;
-
-        if (sortType === 'active') {
-            endpoint += '&type=active';
-        } else if (sortType === 'popular') {
-            endpoint += '&type=popular';
-        } else if (sortType === 'newest') {
-            endpoint += '&type=newest';
-        }
+        let endpoint = `/buddypress/v1/members?per_page=${limit}&type=${sortType}`;
 
         apiFetch({ path: endpoint })
             .then((response) => {
