@@ -9,7 +9,7 @@ import { __ } from '@wordpress/i18n';
  */
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 
-import { TextControl, PanelBody, SelectControl, RangeControl, ButtonGroup, Button, Spinner, ColorPicker } from '@wordpress/components';
+import { PanelBody, SelectControl, RangeControl, ButtonGroup, Button, Spinner } from '@wordpress/components';
 
 import { useState, useEffect } from '@wordpress/element';
 
