@@ -1,35 +1,12 @@
-/**
- * Retrieves the translation of text.
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- */
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-
 import { PanelBody, SelectControl, RangeControl, ButtonGroup, Button, Spinner } from '@wordpress/components';
-
 import { useState, useEffect } from '@wordpress/element';
-
 import apiFetch from '@wordpress/api-fetch';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @return {Element} Element to render.
- */
 export default function Edit({ attributes, setAttributes }) {
     const { sortType, viewType, limit, avatarSize, avatarRadius, membersPerRow, rowSpacing, columnSpacing, innerSpacing, boxBorderRadius } = attributes;
     const blockProps = useBlockProps();

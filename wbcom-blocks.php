@@ -133,9 +133,6 @@ class WbcomBlocks {
 
 	/**
 	 * Enqueue Swiper.js and related assets for the BuddyPress Members Block.
-	 *
-	 * This function enqueues the Swiper CSS and JS files for use with the
-	 * BuddyPress Members Block on the frontend.
 	 */
 	public function enqueue_wbcom_blocks_assets() {
 		// Enqueue Swiper CSS.
