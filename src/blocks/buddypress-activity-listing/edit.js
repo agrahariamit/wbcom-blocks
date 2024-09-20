@@ -60,9 +60,9 @@ export default function Edit({ attributes, setAttributes }) {
     return (
         <>
             <InspectorControls>
-                <PanelBody title={__('Activity Settings', 'todo-list')} initialOpen={true}>
+                <PanelBody title={__('Activity Settings', 'buddypress-activity-listing')} initialOpen={true}>
                     <RangeControl
-                        label={__('Number of Activities to Display', 'todo-list')}
+                        label={__('Number of Activities to Display', 'buddypress-activity-listing')}
                         value={numberOfItems}
                         onChange={(newVal) => setAttributes({ numberOfItems: newVal })}
                         min={1}
@@ -72,13 +72,13 @@ export default function Edit({ attributes, setAttributes }) {
             </InspectorControls>
 
             <div {...blockProps} style={{ backgroundColor: 'transparent' }}>
-                <h2 style={{ color: 'black' }}>{__('BuddyPress Activity Listing', 'todo-list')}</h2>
+                <h2 style={{ color: 'black' }}>{__('BuddyPress Activity Listing', 'buddypress-activity-listing')}</h2>
                 {error ? (
-                    <p>{__('Error loading activities:', 'todo-list')} {error}</p>
+                    <p>{__('Error loading activities:', 'buddypress-activity-listing')} {error}</p>
                 ) : (
                     <ul>
                         {activities.length === 0 ? (
-                            <li>{__('No activities found.', 'todo-list')}</li>
+                            <li>{__('No activities found.', 'buddypress-activity-listing')}</li>
                         ) : (
                             activities.slice(0, numberOfItems).map((activity) => {
                                 const content = activity.content ? stripHTML( activity.content.rendered ) : 'No content';
@@ -100,7 +100,7 @@ export default function Edit({ attributes, setAttributes }) {
                                                 </span>
                                             </div>
                                         </div>
-                                        <div style={{ marginTop: '10px', color: 'black' }}>
+                                        <div className="wb-activity-content">
                                             <p>{content}</p>
                                         </div>
                                     </li>
