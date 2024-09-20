@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "wbcom-blocks/flipbox",
+  "version": "1.0.0",
+  "title": "Flip Box",
+  "category": "wbcom-designs",
+  "icon": "image-flip-horizontal",
+  "keywords": [
+    "flip",
+    "card",
+    "interactive"
+  ],
+  "attributes": {
+    "flipDirection": {
+      "type": "string",
+      "default": "left-to-right"
+    },
+    "width": {
+      "type": "string",
+      "default": "300px"
+    },
+    "height": {
+      "type": "string",
+      "default": "300px"
+    },
+    "backgroundColorFront": {
+      "type": "string",
+      "default": "#f1f1f1"
+    },
+    "backgroundColorBack": {
+      "type": "string",
+      "default": "#333"
+    },
+    "textColorBack": {
+      "type": "string",
+      "default": "#fff"
+    },
+    "customCSS": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "align": true,
+    "html": false,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradients": true
+    },
+    "customClassName": true
+  },
+  "textdomain": "flipbox",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

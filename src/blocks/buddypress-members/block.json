@@ -1,0 +1,62 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wbcom-blocks/buddypress-members",
+	"version": "1.0.0",
+	"title": "BuddyPress Members Block",
+	"category": "wbcom-designs",
+	"icon": "groups",
+	"description": "A Members list of recently active, popular, and newest members with List, Grid and Carousel.",
+	"example": {},
+	"attributes": {
+		"sortType": {
+			"type": "string",
+			"default": "active"
+		},
+		"viewType": {
+			"type": "string",
+			"default": "list"
+		},
+		"limit": {
+			"type": "number",
+			"default": 5
+		},
+		"avatarSize": {
+			"type": "number",
+			"default": 75
+		},
+		"avatarRadius": {
+			"type": "number",
+			"default": 5
+		},
+		"membersPerRow": {
+			"type": "number",
+			"default": 4
+		},
+		"rowSpacing": {
+			"type": "number",
+			"default": 15
+		},
+		"columnSpacing": {
+			"type": "number",
+			"default": 15
+		},
+		"innerSpacing": {
+			"type": "number",
+			"default": 15
+		},
+		"boxBorderRadius": {
+			"type": "number",
+			"default": 4
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "buddypress-members",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

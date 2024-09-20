@@ -47,7 +47,7 @@
             "type": "string",
             "default": "all"
         },
-        "nameType": {
+        "displayNameType": {
             "type": "string",
             "default": "user_name"
         },
@@ -61,7 +61,7 @@
         },
         "field": {
             "type": "string",
-            "default": "full"
+            "default": ""
         }
     }
 }
