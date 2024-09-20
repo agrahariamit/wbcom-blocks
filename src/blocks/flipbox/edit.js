@@ -2,11 +2,10 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, InnerBlocks, PanelColorSettings, useBlockProps, BlockControls, AlignmentControl } from '@wordpress/block-editor';
 import { ToolbarButton, PanelBody, SelectControl, RangeControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-
-const ALLOWED_BLOCKS = ['core/paragraph', 'core/image', 'core/heading']; // Adjust as needed
+import './editor.scss';
 
 const Edit = ({ attributes, setAttributes }) => {
-    const { flipDirection, width, height, backgroundColorFront, backgroundColorBack, textColorBack, padding, alignment, } = attributes;
+    const { flipDirection, width, height, backgroundColorFront, backgroundColorBack, padding, alignment, } = attributes;
     const [selectedSide, setSelectedSide] = useState('front'); // State to track the currently selected side (front/back)
 
     const blockProps = useBlockProps({
@@ -16,6 +15,15 @@ const Edit = ({ attributes, setAttributes }) => {
             height,
         },
     });
+
+    const ALLOWED_BLOCKS = [
+		['flipbox/front-content'],
+        ['flipbox/back-content'],
+	];
+	const TEMPLATE = [
+        ['flipbox/front-content'],
+        ['flipbox/back-content'],
+    ];
 
     return (
         <>
@@ -57,21 +65,19 @@ const Edit = ({ attributes, setAttributes }) => {
                         value={parseInt(width, 10)}
                         onChange={(value) => setAttributes({ width: `${value}px` })}
                         min={150}
-                        max={600}
+                        max={1000}
                     />
                     <RangeControl
                         label={__('Height (px)', 'flipbox')}
                         value={parseInt(height, 10)}
                         onChange={(value) => setAttributes({ height: `${value}px` })}
                         min={150}
-                        max={600}
+                        max={1000}
                     />
                     <RangeControl
                         label={__('Padding (px)', 'flipbox')}
                         value={parseInt(padding, 10) || 0}
                         onChange={(value) => setAttributes({ padding: `${value}px` })}
-                        min={0}
-                        max={50}
                     />
                 </PanelBody>
                 <PanelColorSettings
@@ -87,11 +93,6 @@ const Edit = ({ attributes, setAttributes }) => {
                             onChange: (color) => setAttributes({ backgroundColorBack: color }),
                             label: __('Back Background Color', 'flipbox'),
                         },
-                        {
-                            value: textColorBack,
-                            onChange: (color) => setAttributes({ textColorBack: color }),
-                            label: __('Back Text Color', 'flipbox'),
-                        },
                     ]}
                 />
             </InspectorControls>
@@ -100,32 +101,18 @@ const Edit = ({ attributes, setAttributes }) => {
             <div {...blockProps}>
                 <div className="flip-card-inner">
                     <div
-                        className={`flip-card-front ${selectedSide === 'front' ? 'is-selected' : ''}`}
+                        className={`flip-card ${selectedSide === 'front' ? 'is-front-selected' : 'is-back-selected'}`}
                         style={{
-                            backgroundColor: backgroundColorFront,
+                            backgroundColor: selectedSide === 'front' ? backgroundColorFront : backgroundColorBack,
                             padding,
                             textAlign: alignment, // Apply alignment style
                         }}
-                    >
+                        >
                         <InnerBlocks
-                            allowedBlocks={ALLOWED_BLOCKS}
-                            template={[['core/paragraph', { placeholder: __('Add content to the front...', 'flipbox') }]]}
+                            allowedBlocks={ ALLOWED_BLOCKS }
+                            template={ TEMPLATE }
                             templateLock="all"
-                        />
-                    </div>
-                    <div
-                        className={`flip-card-back ${selectedSide === 'back' ? 'is-selected' : ''}`}
-                        style={{
-                            backgroundColor: backgroundColorBack,
-                            color: textColorBack,
-                            padding,
-                            textAlign: alignment, // Apply alignment style
-                        }}
-                    >
-                        <InnerBlocks
-                            allowedBlocks={ALLOWED_BLOCKS}
-                            template={[['core/paragraph', { placeholder: __('Add content to the back...', 'flipbox') }]]}
-                            templateLock="all"
+                            placeholder={[(`Add content to the ${selectedSide}...`, 'flipbox')]}
                         />
                     </div>
                 </div>

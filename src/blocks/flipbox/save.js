@@ -1,9 +1,9 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 const Save = ({ attributes }) => {
-    const { flipDirection, width, height, backgroundColorFront,  backgroundColorBack, textColorBack, padding, alignment } = attributes;
+    const { width, height, backgroundColorFront, backgroundColorBack, alignment, } = attributes;
     const blockProps = useBlockProps.save({
-        className: `flip-card ${flipDirection}`,
+        className: `flip-card`,
         style: {
             width,
             height,
@@ -11,31 +11,20 @@ const Save = ({ attributes }) => {
     });
 
     return (
+        <>
         <div {...blockProps}>
-            <div className="flip-card-inner">
                 <div
-                    className="flip-card-front"
-                    style={{
-                        backgroundColor: backgroundColorFront,
-                        padding,
-                        textAlign: alignment,
-                    }}
-                >
-                    <InnerBlocks.Content />
-                </div>
-                <div
-                    className="flip-card-back"
+                    className="flip-card-inner"
                     style={{
                         backgroundColor: backgroundColorBack,
-                        color: textColorBack,
-                        padding,
-                        textAlign: alignment,
+                        backgroundColor: backgroundColorFront,
+                        textAlign: alignment, // Apply alignment style
                     }}
-                >
-                    <InnerBlocks.Content />
-                </div>
+                    >
+                 <InnerBlocks.Content />
             </div>
         </div>
+        </>
     );
 };
 
