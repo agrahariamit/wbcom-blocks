@@ -13,8 +13,8 @@
     transform-style: preserve-3d;
 }
 
-.flip-card-front,
-.flip-card-back {
+.wp-block-flipbox-front-content,
+.wp-block-flipbox-back-content {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -22,12 +22,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
     box-sizing: border-box;
 }
 
 /* Hidden back face */
-.flip-card-back {
+.wp-block-flipbox-back-content {
     transform: rotateY(180deg);
 }
 
@@ -48,6 +47,11 @@
     transform: rotateX(-180deg);
 }
 
+.wp-block-flipbox-back-content.flip-card .flip-card-inner,
+.wp-block-flipbox-front-content.flip-card .flip-card-inner {
+    transform: unset;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .flip-card {
@@ -55,4 +59,3 @@
         height: auto;
     }
 }
-

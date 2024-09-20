@@ -1,6 +1,7 @@
 /* Styles for the editor to reflect the frontend */
 .flip-card {
     perspective: 1000px;
+    height: 100%;
     display: block;
     position: relative;
     outline: 1px solid #ccc;
@@ -16,7 +17,7 @@
 .flip-card-front,
 .flip-card-back {
     padding: 20px;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     backface-visibility: hidden;
@@ -28,4 +29,19 @@
 
 .block-editor-block-list__block.flip-card:hover .flip-card-inner {
     transform: none !important;
+}
+
+.flip-card-back.is-selected,
+.flip-card-front.is-selected {
+    display: flex !important;
+}   
+
+.flip-card.is-front-selected div[aria-label="Block: Back Content"] {
+    transform: rotateY(180deg);
+    display: none;  
+}
+
+.flip-card.is-back-selected div[aria-label="Block: Front Content"] {
+    transform: rotateY(180deg);
+    display: none;
 }

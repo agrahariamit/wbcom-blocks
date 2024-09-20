@@ -14,11 +14,15 @@
 	  },
 	  "width": {
 		"type": "string",
-		"default": "300px"
+		"default": "500px"
 	  },
 	  "height": {
 		"type": "string",
-		"default": "300px"
+		"default": "400px"
+	  },
+	  "padding": {
+		"type": "string",
+		"default": "10px"
 	  },
 	  "backgroundColorFront": {
 		"type": "string",
@@ -27,14 +31,6 @@
 	  "backgroundColorBack": {
 		"type": "string",
 		"default": "#333"
-	  },
-	  "textColorBack": {
-		"type": "string",
-		"default": "#fff"
-	  },
-	  "customCSS": {
-		"type": "string",
-		"default": ""
 	  }
 	},
 	"supports": {
