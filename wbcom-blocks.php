@@ -58,7 +58,7 @@ class WbcomBlocks {
 	/**
 	 * The method you use to get the WbcomBlocks's instance.
 	 */
-	public static function get_instance() : WbcomBlocks {
+	public static function get_instance(): WbcomBlocks {
 		$cls = static::class;
 		if ( ! isset( self::$instance[ $cls ] ) ) {
 			self::$instance[ $cls ] = new static();
@@ -72,6 +72,7 @@ class WbcomBlocks {
 		add_action( 'bp_init', array( $this, 'load_textdomain' ), 2 );
 		add_action( 'init', array( $this, 'wbcom_blocks_block_init' ) );
 		add_filter( 'block_categories_all', array( $this, 'wbcom_blocks_add_block_category' ), 10, 2 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_wbcom_blocks_assets' ) );
 	}
 
 	/**
@@ -130,6 +131,16 @@ class WbcomBlocks {
 		);
 	}
 
+	/**
+	 * Enqueue Swiper.js and related assets for the BuddyPress Members Block.
+	 */
+	public function enqueue_wbcom_blocks_assets() {
+		// Enqueue Swiper CSS.
+		wp_enqueue_style( 'swiper', 'https://unpkg.com/swiper/swiper-bundle.min.css', array(), '11.1.12' );
+
+		// Enqueue Swiper JS.
+		wp_enqueue_script( 'swiper', 'https://unpkg.com/swiper/swiper-bundle.min.js', array(), '11.1.12', true );
+	}
 }
 
 function wbcom_blocks() {
