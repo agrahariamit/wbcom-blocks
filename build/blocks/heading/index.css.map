@@ -1,0 +1,1 @@
+{"version":3,"file":"blocks/heading/index.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://wbcom-blocks/./src/blocks/heading/editor.scss"],"sourcesContent":[".wp-block-wpn-blocks-wpn-blocks {\n\tborder: 1px dotted #f00;\n}\n"],"names":[],"sourceRoot":""}

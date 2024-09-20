@@ -32,21 +32,20 @@ import '../editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Members({ itemIDs, title, memberAge }) {
+export default function Members({ birthdaysOf, field, limit }) {
 
     // Define state variables for form inputs
     const [members, setMembers] = useState([]);
 
-    // useEffect(() => {
-
-    //     apiFetch({ path: '/buddypress/v1/members' }).then(items => {
-    //         setMembers(items);
-    //     });
-    // }, [itemIDs]);
+    const queryParams = {
+        'birthdays': birthdaysOf,
+        'fields': field,
+        'limit': limit,
+    }
 
     useEffect(() => {
         // Fetch members only once when the component mounts
-        apiFetch({ path: '/buddypress/v1/members' })
+        apiFetch({ path: addQueryArgs('/buddypress/v1/birthdays/1', queryParams ) })
             .then((items) => {
                 setMembers(items);
             })

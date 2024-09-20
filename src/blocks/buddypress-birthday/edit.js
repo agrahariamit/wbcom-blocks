@@ -8,8 +8,8 @@ import { __ } from '@wordpress/i18n';
  * It provides all the necessary props like the class name.
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { useEffect } from '@wordpress/element';
-import { TextControl, Panel, PanelBody, PanelRow, CheckboxControl, SelectControl, RangeControl } from '@wordpress/components';
+import { useState, useEffect } from '@wordpress/element';
+import { TextControl, Panel, PanelBody, PanelRow, ToggleControl, SelectControl, ComboboxControl,  RangeControl } from '@wordpress/components';
 import Members from './data/members';
 import { fetchProfileFields } from './data/fetchProfileFields'; // Note: Ensure this file and component exist and follow naming conventions
 
@@ -26,7 +26,10 @@ import './editor.scss';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
+    const [profileFields, setProfileFields] = useState([]);
+
     useEffect(() => {
+        // Fetch profile fields from the external file
         fetchProfileFields()
             .then((fields) => {
                 setProfileFields(fields); // Set the fetched fields to state
@@ -66,7 +69,7 @@ export default function Edit({ attributes, setAttributes }) {
     }
 
     const onChangeField = (field) => {
-        setAttributes({ field });
+        setAttributes({ field: field });
     };
 
     return (
@@ -87,20 +90,22 @@ export default function Edit({ attributes, setAttributes }) {
                             />
                         </PanelRow>
                         <PanelRow>
-                            <CheckboxControl
+                            <ToggleControl
+                                __nextHasNoMarginBottom
                                 label={__(' Show the age of the person', 'block-development-examples')}
                                 checked={attributes.displayAge}
                                 onChange={onCheckedAge}
                             >
-                            </CheckboxControl>
+                            </ToggleControl>
                         </PanelRow>
                         <PanelRow>
-                            <CheckboxControl
+                            <ToggleControl
+                                __nextHasNoMarginBottom
                                 label={__('Enable option to wish them', 'block-development-examples')}
                                 checked={attributes.sendMessage}
                                 onChange={onCheckedWishes}
                             >
-                            </CheckboxControl>
+                            </ToggleControl>
                         </PanelRow>
                         <PanelRow>
                             <TextControl
@@ -110,7 +115,8 @@ export default function Edit({ attributes, setAttributes }) {
                             />  
                         </PanelRow>
                         <PanelRow>
-                            <SelectControl
+                            <ComboboxControl
+                                __nextHasNoMarginBottom
                                 label={__('Birthday range limit', 'block-development-examples')}
                                 value={attributes.rangeLimit}
                                 onChange={onChangeRangeLimit}
@@ -122,7 +128,7 @@ export default function Edit({ attributes, setAttributes }) {
                             />
                         </PanelRow>
                         <PanelRow>
-                            <SelectControl
+                            <ComboboxControl
                                 label={__('Show Birthdays of', 'block-development-examples')}
                                 value={attributes.birthdaysOf}
                                 onChange={onChangeBirthdaysOf}
@@ -133,13 +139,14 @@ export default function Edit({ attributes, setAttributes }) {
                             />
                         </PanelRow>
                         <PanelRow>
-                            <SelectControl
+                            <ComboboxControl
                                 label={__('Display Name Type', 'block-development-examples')}
-                                value={attributes.nameType}
+                                value={attributes.displayNameType}
                                 onChange={onChangeNameTypet}
                                 options={[
-                                    { value: 'friends', label: __('Friends', 'block-development-examples') },
-                                    { value: 'all', label: __('All Members', 'block-development-examples') },
+                                    { value: 'user_name', label: __('User name', 'block-development-examples') },
+                                    { value: 'nick_name', label: __('Nick name', 'block-development-examples') },
+                                    { value: 'first_name', label: __('First Name', 'block-development-examples') },
                                 ]}
                             />
                         </PanelRow>
@@ -150,12 +157,15 @@ export default function Edit({ attributes, setAttributes }) {
                                 onChange={onChangeLimit}
                             />
                         </PanelRow>
-                        <SelectControl
-                            label={__('Field name', 'block-development-examples')}
-                            value={attributes.field}
-                            options={profileFields} // Dynamically populated options from the API
-                            onChange={onChangeField}
-                        />
+                        <PanelRow>
+                            <ComboboxControl
+                                __nextHasNoMarginBottom
+                                label={__('Field name', 'block-development-examples')}
+                                value={attributes.field}
+                                options={profileFields} // Dynamically populated options from the API
+                                onChange={onChangeField}
+                            />
+                        </PanelRow>
                     </PanelBody>
                 </Panel>
             </InspectorControls>

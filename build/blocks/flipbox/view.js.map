@@ -1,0 +1,1 @@
+{"version":3,"file":"blocks/flipbox/view.js","mappings":";;;;AAAA;AACAA,OAAO,CAACC,GAAG,CAAC,kDAAkD,CAAC;AAC/D,8B","sources":["webpack://wbcom-blocks/./src/blocks/flipbox/view.js"],"sourcesContent":["/* eslint-disable no-console */\nconsole.log(\"Hello World! (from create-block-flip-card block)\");\n/* eslint-enable no-console */\n"],"names":["console","log"],"sourceRoot":""}

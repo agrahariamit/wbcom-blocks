@@ -1,0 +1,1 @@
+{"version":3,"file":"blocks/heading/style-index.css","mappings":";;;AAAA;EACC;EACA;EACA;AACD,C","sources":["webpack://wbcom-blocks/./src/blocks/heading/style.scss"],"sourcesContent":[".wp-block-wpn-blocks-wpn-blocks {\n\tbackground-color: #21759b;\n\tcolor: #fff;\n\tpadding: 2px;\n}\n"],"names":[],"sourceRoot":""}
