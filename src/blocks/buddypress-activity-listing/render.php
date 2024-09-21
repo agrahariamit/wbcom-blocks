@@ -4,9 +4,21 @@
  */
     // Set the number of items to fetch
     $numberOfItems = isset($attributes['numberOfItems']) ? $attributes['numberOfItems'] : 5;
+    $activityType = isset($attributes['activityType']) ? $attributes['activityType'] : 'all';
+
+    // Set the API endpoint based on activity type
+    $endpoint = 'buddypress/v1/activity?per_page=' . $numberOfItems;
+
+    if ($activityType === 'my') {
+        // Replace with the appropriate API call for user-specific activities
+        $endpoint .= '&user_id=' . get_current_user_id(); // Assuming this is how you fetch user activities
+    } elseif ($activityType === 'favorites') {
+        // Replace with the appropriate API call for favorite activities
+       $endpoint .= '&scope=favorites&user_id=' . get_current_user_id();
+    }
 
     // Fetch activities from the BuddyPress REST API
-    $response = wp_remote_get(rest_url('buddypress/v1/activity?per_page=' . $numberOfItems));
+    $response = wp_remote_get(rest_url($endpoint));
     
     // Check for errors in the response
     if (is_wp_error($response)) {

@@ -2,9 +2,10 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useState, useEffect } from '@wordpress/element';
-import { PanelBody, RangeControl } from '@wordpress/components';
+import { PanelBody, RangeControl, SelectControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
+
 
 export default function Edit({ attributes, setAttributes }) {
     const blockProps = useBlockProps();
@@ -12,10 +13,19 @@ export default function Edit({ attributes, setAttributes }) {
     const [error, setError] = useState(null);
 
     // Get the number of items from attributes
-    const { numberOfItems } = attributes;
+    const { numberOfItems, activityType } = attributes;
 
     useEffect(() => {
-        apiFetch({ path: 'buddypress/v1/activity' })            
+        let path = `buddypress/v1/activity?per_page=${numberOfItems}`;
+    
+        if (activityType === 'my') {
+            // Fetch user-specific activities
+            path += `&user_id=1`;
+        } else if (activityType === 'favorites') {
+            // Fetch favorite activities
+            path += '&scope=favorites';
+        }
+        apiFetch({ path })            
             .then((data) => {				
                 setActivities(data);
             })
@@ -23,7 +33,7 @@ export default function Edit({ attributes, setAttributes }) {
                 console.error('Error fetching activities:', error);
                 setError(error.message);
             });
-    }, []);
+    }, [activityType, numberOfItems]);
 
     //exclude html
     const stripHTML = (html) => {
@@ -67,6 +77,16 @@ export default function Edit({ attributes, setAttributes }) {
                         onChange={(newVal) => setAttributes({ numberOfItems: newVal })}
                         min={1}
                         max={20}
+                    />
+                    <SelectControl
+                        label={__('Activity Type', 'buddypress-activity-listing')}
+                        value={activityType}
+                        options={[
+                            { label: __('All Activities', 'buddypress-activity-listing'), value: 'all' },
+                            { label: __('My Activities', 'buddypress-activity-listing'), value: 'my' },
+                            { label: __('Favorite Activities', 'buddypress-activity-listing'), value: 'favorites' },
+                        ]}
+                        onChange={(newVal) => setAttributes({ activityType: newVal })}
                     />
                 </PanelBody>
             </InspectorControls>

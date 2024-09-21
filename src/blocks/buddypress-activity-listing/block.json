@@ -21,6 +21,10 @@
 		"numberOfItems": {
 			"type": "number",
 			"default": 5
+		},
+		"activityType": {
+			"type": "string",
+			"default": "all"
 		}
 	}
 }
