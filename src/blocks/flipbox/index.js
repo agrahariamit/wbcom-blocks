@@ -26,6 +26,7 @@ registerBlockType( metadata.name, {
 
 registerBlockType('flipbox/front-content', {
 	title: 'Front Content',
+	description: 'The block that appears in the front.',
 	parent: ['flipbox'],
 	category: 'wbcom-designs',
 	edit: FrontContentEdit,
@@ -34,6 +35,7 @@ registerBlockType('flipbox/front-content', {
 
 registerBlockType('flipbox/back-content', {
 	title: 'Back Content',
+	description: 'The block that appears in the back.',
 	parent: ['flipbox'],
 	category: 'wbcom-designs',
 	edit: BackContentEdit,
