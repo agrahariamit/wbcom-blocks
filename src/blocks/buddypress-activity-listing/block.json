@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Buddypress Activity Listing",
 	"category": "wbcom-designs",
-	"icon": "editor-ul",
+	"icon": "buddicons-activity",
 	"description": "Buddypress Activity Listing Block.",
 	"example": {},
 	"supports": {
@@ -25,6 +25,22 @@
 		"activityType": {
 			"type": "string",
 			"default": "all"
+		},
+		"layout": {
+			"type": "string",
+			"default": "list"
+		},
+		"showDate": {
+			"type": "boolean",
+			"default": true
+		},
+		"avatarSize": {
+			"type": "number",
+			"default": 45
+		},
+		"hideHeading": {
+			"type": "boolean",
+			"default": true
 		}
 	}
 }
