@@ -1,11 +1,11 @@
 /* Flip Card Wrapper */
-.flip-card {
+.wp-block-gutenberg-blocks-flipbox.flip-card {
     perspective: 1000px;
     display: block;
     position: relative;
 }
 
-.flip-card-inner {
+.wp-block-gutenberg-blocks-flipbox.flip-card>.flip-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
@@ -31,19 +31,21 @@
 }
 
 /* Flip directions */
-.flip-card:hover .flip-card-inner {
+.flip-card:hover>.flip-card-inner {
     transform: rotateY(180deg);
 }
 
-.flip-card.right-to-left:hover .flip-card-inner {
+.flip-card.right-to-left:hover>.flip-card-inner {
     transform: rotateY(-180deg);
 }
 
-.flip-card.top-to-bottom:hover .flip-card-inner {
+.flip-card.top-to-bottom:hover>.flip-card-inner,
+.flip-card.top-to-bottom:hover .wp-block-flipbox-back-content.flip-card {
     transform: rotateX(180deg);
 }
 
-.flip-card.bottom-to-top:hover .flip-card-inner {
+.flip-card.bottom-to-top:hover .wp-block-flipbox-back-content.flip-card,
+.flip-card.bottom-to-top:hover>.flip-card-inner {
     transform: rotateX(-180deg);
 }
 
