@@ -2,9 +2,10 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useState, useEffect } from '@wordpress/element';
-import { PanelBody, RangeControl } from '@wordpress/components';
+import { PanelBody, RangeControl, SelectControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import './editor.scss';
+
 
 export default function Edit({ attributes, setAttributes }) {
     const blockProps = useBlockProps();
@@ -12,10 +13,19 @@ export default function Edit({ attributes, setAttributes }) {
     const [error, setError] = useState(null);
 
     // Get the number of items from attributes
-    const { numberOfItems } = attributes;
+    const { numberOfItems, activityType } = attributes;
 
     useEffect(() => {
-        apiFetch({ path: 'buddypress/v1/activity' })            
+        let path = `buddypress/v1/activity?per_page=${numberOfItems}`;
+    
+        if (activityType === 'my') {
+            // Fetch user-specific activities
+            path += `&user_id=1`;
+        } else if (activityType === 'favorites') {
+            // Fetch favorite activities
+            path += '&scope=favorites';
+        }
+        apiFetch({ path })            
             .then((data) => {				
                 setActivities(data);
             })
@@ -23,7 +33,7 @@ export default function Edit({ attributes, setAttributes }) {
                 console.error('Error fetching activities:', error);
                 setError(error.message);
             });
-    }, []);
+    }, [activityType, numberOfItems]);
 
     //exclude html
     const stripHTML = (html) => {
@@ -60,25 +70,35 @@ export default function Edit({ attributes, setAttributes }) {
     return (
         <>
             <InspectorControls>
-                <PanelBody title={__('Activity Settings', 'todo-list')} initialOpen={true}>
+                <PanelBody title={__('Activity Settings', 'buddypress-activity-listing')} initialOpen={true}>
                     <RangeControl
-                        label={__('Number of Activities to Display', 'todo-list')}
+                        label={__('Number of Activities to Display', 'buddypress-activity-listing')}
                         value={numberOfItems}
                         onChange={(newVal) => setAttributes({ numberOfItems: newVal })}
                         min={1}
                         max={20}
                     />
+                    <SelectControl
+                        label={__('Activity Type', 'buddypress-activity-listing')}
+                        value={activityType}
+                        options={[
+                            { label: __('All Activities', 'buddypress-activity-listing'), value: 'all' },
+                            { label: __('My Activities', 'buddypress-activity-listing'), value: 'my' },
+                            { label: __('Favorite Activities', 'buddypress-activity-listing'), value: 'favorites' },
+                        ]}
+                        onChange={(newVal) => setAttributes({ activityType: newVal })}
+                    />
                 </PanelBody>
             </InspectorControls>
 
             <div {...blockProps} style={{ backgroundColor: 'transparent' }}>
-                <h2 style={{ color: 'black' }}>{__('BuddyPress Activity Listing', 'todo-list')}</h2>
+                <h2 style={{ color: 'black' }}>{__('BuddyPress Activity Listing', 'buddypress-activity-listing')}</h2>
                 {error ? (
-                    <p>{__('Error loading activities:', 'todo-list')} {error}</p>
+                    <p>{__('Error loading activities:', 'buddypress-activity-listing')} {error}</p>
                 ) : (
                     <ul>
                         {activities.length === 0 ? (
-                            <li>{__('No activities found.', 'todo-list')}</li>
+                            <li>{__('No activities found.', 'buddypress-activity-listing')}</li>
                         ) : (
                             activities.slice(0, numberOfItems).map((activity) => {
                                 const content = activity.content ? stripHTML( activity.content.rendered ) : 'No content';
@@ -100,7 +120,7 @@ export default function Edit({ attributes, setAttributes }) {
                                                 </span>
                                             </div>
                                         </div>
-                                        <div style={{ marginTop: '10px', color: 'black' }}>
+                                        <div className="wb-activity-content">
                                             <p>{content}</p>
                                         </div>
                                     </li>

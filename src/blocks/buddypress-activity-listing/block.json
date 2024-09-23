@@ -16,10 +16,15 @@
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"viewScript": "file:./view.js",
+	"render": "file:./render.php",
 	"attributes": {
 		"numberOfItems": {
 			"type": "number",
 			"default": 5
+		},
+		"activityType": {
+			"type": "string",
+			"default": "all"
 		}
 	}
 }
