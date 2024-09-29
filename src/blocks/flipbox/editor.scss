@@ -4,7 +4,6 @@
     height: 100%;
     display: block;
     position: relative;
-    outline: 1px solid #ccc;
 }
 
 .flip-card-inner {
@@ -16,8 +15,7 @@
 
 .flip-card-front,
 .flip-card-back {
-    padding: 20px;
-    display: flex !important;
+    padding: 10px;
     justify-content: center;
     align-items: center;
     backface-visibility: hidden;
@@ -31,11 +29,6 @@
     transform: none !important;
 }
 
-.flip-card-back.is-selected,
-.flip-card-front.is-selected {
-    display: flex !important;
-}   
-
 .flip-card.is-front-selected div[aria-label="Block: Back Content"] {
     transform: rotateY(180deg);
     display: none;  
@@ -44,4 +37,11 @@
 .flip-card.is-back-selected div[aria-label="Block: Front Content"] {
     transform: rotateY(180deg);
     display: none;
+}
+
+.block-editor-inner-blocks,
+.block-editor-inner-blocks div{
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }

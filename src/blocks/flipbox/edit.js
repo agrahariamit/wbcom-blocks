@@ -65,14 +65,14 @@ const Edit = ({ attributes, setAttributes }) => {
                         value={parseInt(width, 10)}
                         onChange={(value) => setAttributes({ width: `${value}px` })}
                         min={150}
-                        max={1000}
+                        max={4000}
                     />
                     <RangeControl
                         label={__('Height (px)', 'flipbox')}
                         value={parseInt(height, 10)}
                         onChange={(value) => setAttributes({ height: `${value}px` })}
                         min={150}
-                        max={1000}
+                        max={4000}
                     />
                     <RangeControl
                         label={__('Padding (px)', 'flipbox')}
@@ -81,7 +81,7 @@ const Edit = ({ attributes, setAttributes }) => {
                     />
                 </PanelBody>
                 <PanelColorSettings
-                    title={__('Color Settings', 'flipbox')}
+                    title={__('Flip Box Background Color', 'flipbox')}
                     colorSettings={[
                         {
                             value: backgroundColorFront,
