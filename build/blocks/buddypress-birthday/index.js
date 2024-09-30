@@ -78,16 +78,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
  */
 
 
 /**
  * React hook that is used to mark the block wrapper element.
  * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
 
 
@@ -97,8 +93,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 
 
@@ -106,20 +100,18 @@ __webpack_require__.r(__webpack_exports__);
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
  *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
- *
  * @return {WPElement} Element to render.
  */
 function Members({
   birthdaysOf,
-  field,
+  xProfileField,
   limit
 }) {
   // Define state variables for form inputs
   const [members, setMembers] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useState)([]);
   const queryParams = {
     'birthdays': birthdaysOf,
-    'fields': field,
+    'field': xProfileField,
     'limit': limit
   };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
@@ -211,88 +203,45 @@ function Edit({
   attributes,
   setAttributes
 }) {
+  const {
+    displayAge,
+    sendMessage,
+    dateFormat,
+    rangeLimit,
+    birthdaysOf,
+    displayNameType,
+    limit,
+    xProfileField
+  } = attributes;
   const [profileFields, setProfileFields] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useState)([]);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
-    // Fetch profile fields from the external file
-    (0,_data_fetchProfileFields__WEBPACK_IMPORTED_MODULE_6__.fetchProfileFields)().then(fields => {
-      setProfileFields(fields); // Set the fetched fields to state
-    }).catch(err => console.error('Error fetching profile fields:', err));
-  }, []); // Fetch fields once on component mount
-
-  const onChangeTitle = title => {
-    setAttributes({
-      title: title
-    });
-  };
-  const onCheckedAge = displayAge => {
-    setAttributes({
-      displayAge: displayAge
-    });
-  };
-  const onCheckedWishes = sendMessage => {
-    setAttributes({
-      sendMessage: sendMessage
-    });
-  };
-  const onChangeDateFormate = dateFormat => {
-    setAttributes({
-      dateFormat: dateFormat
-    });
-  };
-  const onChangeRangeLimit = rangeLimit => {
-    setAttributes({
-      rangeLimit: rangeLimit
-    });
-  };
-  const onChangeBirthdaysOf = birthdaysOf => {
-    setAttributes({
-      birthdaysOf: birthdaysOf
-    });
-  };
-  const onChangeNameTypet = nameType => {
-    setAttributes({
-      nameType: nameType
-    });
-  };
-  const onChangeLimit = limit => {
-    setAttributes({
-      limit: limit
-    });
-  };
-  const onChangeField = field => {
-    setAttributes({
-      field: field
-    });
-  };
+    (0,_data_fetchProfileFields__WEBPACK_IMPORTED_MODULE_6__.fetchProfileFields)().then(setProfileFields).catch(err => console.error('Error fetching profile fields:', err));
+  }, []);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
-    key: "setting"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Panel, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Panel, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Member Information', 'block-development-examples')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This block displays member information from a BuddyPress API endpoint.', 'block-development-examples'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Title', 'block-development-examples'),
-    value: attributes.title,
-    onChange: onChangeTitle
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('This block displays member information from a BuddyPress API endpoint.', 'block-development-examples'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show the age of the person', 'block-development-examples'),
+    checked: displayAge,
+    onChange: value => setAttributes({
+      displayAge: value
+    })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-    __nextHasNoMarginBottom: true,
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)(' Show the age of the person', 'block-development-examples'),
-    checked: attributes.displayAge,
-    onChange: onCheckedAge
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-    __nextHasNoMarginBottom: true,
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable option to wish them', 'block-development-examples'),
-    checked: attributes.sendMessage,
-    onChange: onCheckedWishes
+    checked: sendMessage,
+    onChange: value => setAttributes({
+      sendMessage: value
+    })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Date format', 'block-development-examples'),
-    value: attributes.dateFormat,
-    onChange: onChangeDateFormate
+    value: dateFormat,
+    onChange: value => setAttributes({
+      dateFormat: value
+    })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ComboboxControl, {
-    __nextHasNoMarginBottom: true,
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Birthday range limit', 'block-development-examples'),
-    value: attributes.rangeLimit,
-    onChange: onChangeRangeLimit,
+    value: rangeLimit,
     options: [{
       value: 'no_limit',
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('No limit', 'block-development-examples')
@@ -302,22 +251,26 @@ function Edit({
     }, {
       value: 'monthly',
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Monthly', 'block-development-examples')
-    }]
+    }],
+    onChange: value => setAttributes({
+      rangeLimit: value
+    })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ComboboxControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Show Birthdays of', 'block-development-examples'),
-    value: attributes.birthdaysOf,
-    onChange: onChangeBirthdaysOf,
+    value: birthdaysOf,
     options: [{
       value: 'friends',
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Friends', 'block-development-examples')
     }, {
       value: 'all',
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('All Members', 'block-development-examples')
-    }]
+    }],
+    onChange: value => setAttributes({
+      birthdaysOf: value
+    })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ComboboxControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Display Name Type', 'block-development-examples'),
-    value: attributes.displayNameType,
-    onChange: onChangeNameTypet,
+    value: displayNameType,
     options: [{
       value: 'user_name',
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('User name', 'block-development-examples')
@@ -327,18 +280,23 @@ function Edit({
     }, {
       value: 'first_name',
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('First Name', 'block-development-examples')
-    }]
+    }],
+    onChange: value => setAttributes({
+      displayNameType: value
+    })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.RangeControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Number of birthdays to show ', 'block-development-examples'),
-    value: attributes.limit,
-    onChange: onChangeLimit
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Number of birthdays to show', 'block-development-examples'),
+    value: limit,
+    onChange: value => setAttributes({
+      limit: value
+    })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ComboboxControl, {
-    __nextHasNoMarginBottom: true,
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Field name', 'block-development-examples'),
-    value: attributes.field,
-    options: profileFields // Dynamically populated options from the API
-    ,
-    onChange: onChangeField
+    value: xProfileField,
+    options: profileFields,
+    onChange: value => setAttributes({
+      xProfileField: value
+    })
   }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_data_members__WEBPACK_IMPORTED_MODULE_5__["default"], {
     ...attributes
   }));
@@ -554,7 +512,7 @@ module.exports = window["wp"]["url"];
   \***************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"wbcom-blocks/buddypress-birthday","version":"1.0.0","title":"BuddyPress Birthday","category":"wbcom-designs","icon":"buddicons-community","description":"Display upcoming birthdays of your members.","supports":{"html":false},"textdomain":"buddypress-birthday","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","attributes":{"itemIDs":{"type":"array","items":{"type":"integer"},"default":[]},"title":{"type":"string","default":"Upcoming Birthdays"},"displayAge":{"type":"boolean","default":true},"sendMessage":{"type":"boolean","default":true},"dateFormat":{"type":"string","default":"F D"},"rangeLimit":{"type":"string","default":"no_limit"},"birthdaysOf":{"type":"string","default":"all"},"displayNameType":{"type":"string","default":"user_name"},"limit":{"type":"number","default":5},"emoji":{"type":"boolean","default":true},"field":{"type":"string","default":""}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"wbcom-blocks/buddypress-birthday","version":"1.0.0","title":"BuddyPress Birthday","category":"wbcom-designs","icon":"buddicons-community","description":"Display upcoming birthdays of your members.","supports":{"html":false},"textdomain":"buddypress-birthday","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","attributes":{"itemIDs":{"type":"array","items":{"type":"integer"},"default":[]},"displayAge":{"type":"boolean","default":true},"sendMessage":{"type":"boolean","default":true},"dateFormat":{"type":"string","default":"F D"},"rangeLimit":{"type":"string","default":"no_limit"},"birthdaysOf":{"type":"string","default":"all"},"displayNameType":{"type":"string","default":"user_name"},"limit":{"type":"number","default":5},"emoji":{"type":"boolean","default":true},"xProfileField":{"type":"integer","default":""}}}');
 
 /***/ })
 

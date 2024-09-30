@@ -28,15 +28,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var swiper_swiper_bundle_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swiper/swiper-bundle.css */ "./node_modules/swiper/swiper-bundle.css");
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/buddypress-members/editor.scss");
 
-/**
- * Retrieves the translation of text.
- */
-
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- */
 
 
 
@@ -44,18 +35,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- */
 
-
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @return {Element} Element to render.
- */
 function Edit({
   attributes,
   setAttributes
@@ -79,14 +59,7 @@ function Edit({
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
     setIsLoading(true);
     setError(null);
-    let endpoint = `/buddypress/v1/members?per_page=${limit}`;
-    if (sortType === 'active') {
-      endpoint += '&type=active';
-    } else if (sortType === 'popular') {
-      endpoint += '&type=popular';
-    } else if (sortType === 'newest') {
-      endpoint += '&type=newest';
-    }
+    let endpoint = `/buddypress/v1/members?per_page=${limit}&type=${sortType}`;
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
       path: endpoint
     }).then(response => {
@@ -277,31 +250,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/buddypress-members/style.scss");
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/buddypress-members/edit.js");
 /* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/blocks/buddypress-members/block.json");
-/**
- * Registers a new block provided a unique name and an object defining its behavior.
- */
-
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor.
- */
-
-
-/**
- * Internal dependencies
- */
 
 
 
-/**
- * Every block starts by registering a new block type definition.
- */
+
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__.name, {
-  /**
-   * @see ./edit.js
-   */
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 
@@ -5684,7 +5637,7 @@ SwiperSlide.displayName = 'SwiperSlide';
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wbcom-blocks/buddypress-members","version":"0.1.0","title":"BuddyPress Members Block","category":"wbcom-designs","icon":"wordpress","description":"A Members list of recently active, popular, and newest members with List, Grid and Carousel.","example":{},"attributes":{"sortType":{"type":"string","default":"active"},"viewType":{"type":"string","default":"list"},"limit":{"type":"number","default":5},"avatarSize":{"type":"number","default":75},"avatarRadius":{"type":"number","default":5},"membersPerRow":{"type":"number","default":4},"rowSpacing":{"type":"number","default":15},"columnSpacing":{"type":"number","default":15},"innerSpacing":{"type":"number","default":15},"boxBorderRadius":{"type":"number","default":4}},"supports":{"html":false},"textdomain":"buddypress-members","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wbcom-blocks/buddypress-members","version":"1.0.0","title":"BuddyPress Members Block","category":"wbcom-designs","icon":"groups","description":"A Members list of recently active, popular, and newest members with List, Grid and Carousel.","example":{},"attributes":{"sortType":{"type":"string","default":"active"},"viewType":{"type":"string","default":"list"},"limit":{"type":"number","default":5},"avatarSize":{"type":"number","default":75},"avatarRadius":{"type":"number","default":5},"membersPerRow":{"type":"number","default":4},"rowSpacing":{"type":"number","default":15},"columnSpacing":{"type":"number","default":15},"innerSpacing":{"type":"number","default":15},"boxBorderRadius":{"type":"number","default":4}},"supports":{"html":false},"textdomain":"buddypress-members","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
 
 /***/ })
 

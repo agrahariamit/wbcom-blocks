@@ -23,10 +23,6 @@
             },
             "default": []
         },
-        "title": {
-            "type": "string",
-            "default": "Upcoming Birthdays"
-        },
         "displayAge": {
             "type": "boolean",
             "default": true
@@ -59,8 +55,8 @@
             "type": "boolean",
             "default": true
         },
-        "field": {
-            "type": "string",
+        "xProfileField": {
+            "type": "integer",
             "default": ""
         }
     }

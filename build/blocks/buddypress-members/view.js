@@ -2,10 +2,6 @@
 /*!***********************************************!*\
   !*** ./src/blocks/buddypress-members/view.js ***!
   \***********************************************/
-/**
- * Use this file for JavaScript code that you want to run in the front-end
- * on posts/pages that contain this block.
- */
 document.addEventListener('DOMContentLoaded', function () {
   const swiperContainer = document.querySelector('.swiper-container');
 

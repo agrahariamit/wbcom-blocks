@@ -130,26 +130,37 @@ class BP_Birthday_API {
 	 * @return WP_REST_Response
 	 */
 	public function get_items( $request ) {
+
 		$args = array(
-			'user_id'             => $request->get_param( 'id' ),
-			'show_birthdays_of'   => $request->get_param( 'birthdays' ),
-			'birthday_field_name' => $request->get_param( 'fields' ),
-			'limit'               => $request->get_param( 'limit' ),
+			'user_id'           => $request->get_param( 'id' ),
+			'show_birthdays_of' => $request->get_param( 'birthdays' ),
+			'field'             => $request->get_param( 'field' ),
+			'limit'             => $request->get_param( 'limit' ),
 		);
 
-		if ( isset( $args['show_birthdays_of'] ) && 'friends' === $args['show_birthdays_of'] && bp_is_active( 'friends' ) ) {
-			$members = friends_get_friend_user_ids( $args['user_id'] );
-		} elseif ( isset( $args['show_birthdays_of'] ) && 'followers' === $args['show_birthdays_of'] ) {
+		$r = bp_parse_args(
+			$args,
+			array(
+				'user_id'           => get_current_user_id(),
+				'limit'             => 5,
+				'field'             => '',
+				'show_birthdays_of' => 'friends',
+			)
+		);
+
+		if ( isset( $r['show_birthdays_of'] ) && 'friends' === $r['show_birthdays_of'] && bp_is_active( 'friends' ) ) {
+			$members = friends_get_friend_user_ids( $r['user_id'] );
+		} elseif ( isset( $r['show_birthdays_of'] ) && 'followers' === $r['show_birthdays_of'] ) {
 			if ( function_exists( 'bp_follow_get_following' ) ) {
 				$members = bp_follow_get_following(
 					array(
-						'user_id' => $args['user_id'],
+						'user_id' => $r['user_id'],
 					)
 				);
 			} elseif ( function_exists( 'bp_get_following_ids' ) ) {
 				$members = bp_get_following_ids(
 					array(
-						'user_id' => $args['user_id'],
+						'user_id' => $r['user_id'],
 					)
 				);
 
@@ -157,10 +168,9 @@ class BP_Birthday_API {
 			}
 		}
 
-		$field_name      = isset( $args['birthday_field_name'] ) ? $args['birthday_field_name'] : '';
-		echo '<pre>';
-		print_r( $field_name );
-		echo '</pre>';
+		$wp_time_zone = ! empty( get_option( 'timezone_string' ) ) ? new DateTimeZone( get_option( 'timezone_string' ) ) : wp_timezone();
+		$today        = new DateTime( 'now', $wp_time_zone );
+		$end          = new DateTime( 'now', $wp_time_zone );
 
 	}
 }

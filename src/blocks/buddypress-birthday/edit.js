@@ -9,7 +9,16 @@ import { __ } from '@wordpress/i18n';
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useState, useEffect } from '@wordpress/element';
-import { TextControl, Panel, PanelBody, PanelRow, ToggleControl, SelectControl, ComboboxControl,  RangeControl } from '@wordpress/components';
+import {
+    TextControl,
+    Panel,
+    PanelBody,
+    PanelRow,
+    ToggleControl,
+    ComboboxControl,
+    SelectControl,
+    RangeControl
+} from '@wordpress/components';
 import Members from './data/members';
 import { fetchProfileFields } from './data/fetchProfileFields'; // Note: Ensure this file and component exist and follow naming conventions
 
@@ -26,150 +35,109 @@ import './editor.scss';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
+    const {
+        displayAge,
+        sendMessage,
+        dateFormat,
+        rangeLimit,
+        birthdaysOf,
+        displayNameType,
+        limit,
+        xProfileField
+    } = attributes;
+
     const [profileFields, setProfileFields] = useState([]);
 
     useEffect(() => {
-        // Fetch profile fields from the external file
         fetchProfileFields()
-            .then((fields) => {
-                setProfileFields(fields); // Set the fetched fields to state
-            })
+            .then(setProfileFields)
             .catch((err) => console.error('Error fetching profile fields:', err));
-    }, []); // Fetch fields once on component mount
-
-
-
-    const onChangeTitle = (title) => {
-        setAttributes({ title: title });
-    };
-
-    const onCheckedAge = (displayAge) => {
-        setAttributes({ displayAge: displayAge });
-    }
-
-    const onCheckedWishes = (sendMessage) => {
-        setAttributes({ sendMessage: sendMessage });
-    }
-
-    const onChangeDateFormate = (dateFormat) => {
-        setAttributes({ dateFormat: dateFormat });
-    }
-
-    const onChangeRangeLimit = (rangeLimit) => {
-        setAttributes({ rangeLimit: rangeLimit });
-    }
-    const onChangeBirthdaysOf = (birthdaysOf) => {
-        setAttributes({ birthdaysOf: birthdaysOf });
-    }
-    const onChangeNameTypet = (nameType) => {
-        setAttributes({ nameType: nameType });
-    }
-    const onChangeLimit = (limit) => {
-        setAttributes({ limit: limit });
-    }
-
-    const onChangeField = (field) => {
-        setAttributes({ field: field });
-    };
+    }, []);
+    
 
     return (
         <div {...useBlockProps()}>
-            <InspectorControls key="setting">
+            <InspectorControls>
                 <Panel>
                     <PanelBody title={__('Member Information', 'block-development-examples')}>
                         <PanelRow>
-                            <p>
-                                {__('This block displays member information from a BuddyPress API endpoint.', 'block-development-examples')}
-                            </p>
+                            <p>{__('This block displays member information from a BuddyPress API endpoint.', 'block-development-examples')}</p>
                         </PanelRow>
                         <PanelRow>
-                            <TextControl
-                                label={__('Title', 'block-development-examples')}
-                                value={attributes.title}
-                                onChange={onChangeTitle}
+                            <ToggleControl
+                                label={__('Show the age of the person', 'block-development-examples')}
+                                checked={displayAge}
+                                onChange={(value) => setAttributes({ displayAge: value })}
                             />
                         </PanelRow>
                         <PanelRow>
                             <ToggleControl
-                                __nextHasNoMarginBottom
-                                label={__(' Show the age of the person', 'block-development-examples')}
-                                checked={attributes.displayAge}
-                                onChange={onCheckedAge}
-                            >
-                            </ToggleControl>
-                        </PanelRow>
-                        <PanelRow>
-                            <ToggleControl
-                                __nextHasNoMarginBottom
                                 label={__('Enable option to wish them', 'block-development-examples')}
-                                checked={attributes.sendMessage}
-                                onChange={onCheckedWishes}
-                            >
-                            </ToggleControl>
+                                checked={sendMessage}
+                                onChange={(value) => setAttributes({ sendMessage: value })}
+                            />
                         </PanelRow>
                         <PanelRow>
                             <TextControl
                                 label={__('Date format', 'block-development-examples')}
-                                value={attributes.dateFormat}
-                                onChange={onChangeDateFormate}
-                            />  
+                                value={dateFormat}
+                                onChange={(value) => setAttributes({ dateFormat: value })}
+                            />
                         </PanelRow>
                         <PanelRow>
                             <ComboboxControl
-                                __nextHasNoMarginBottom
                                 label={__('Birthday range limit', 'block-development-examples')}
-                                value={attributes.rangeLimit}
-                                onChange={onChangeRangeLimit}
+                                value={rangeLimit}
                                 options={[
-                                    { value: 'no_limit', label: __('No limit', 'block-development-examples' )},
-                                    { value: 'weekly', label: __('Weekly', 'block-development-examples' ) },
-                                    { value: 'monthly', label: __('Monthly', 'block-development-examples' ) },
+                                    { value: 'no_limit', label: __('No limit', 'block-development-examples') },
+                                    { value: 'weekly', label: __('Weekly', 'block-development-examples') },
+                                    { value: 'monthly', label: __('Monthly', 'block-development-examples') },
                                 ]}
+                                onChange={(value) => setAttributes({ rangeLimit: value })}
                             />
                         </PanelRow>
                         <PanelRow>
                             <ComboboxControl
                                 label={__('Show Birthdays of', 'block-development-examples')}
-                                value={attributes.birthdaysOf}
-                                onChange={onChangeBirthdaysOf}
+                                value={birthdaysOf}
                                 options={[
                                     { value: 'friends', label: __('Friends', 'block-development-examples') },
                                     { value: 'all', label: __('All Members', 'block-development-examples') },
                                 ]}
+                                onChange={(value) => setAttributes({ birthdaysOf: value })}
                             />
                         </PanelRow>
                         <PanelRow>
                             <ComboboxControl
                                 label={__('Display Name Type', 'block-development-examples')}
-                                value={attributes.displayNameType}
-                                onChange={onChangeNameTypet}
+                                value={displayNameType}
                                 options={[
                                     { value: 'user_name', label: __('User name', 'block-development-examples') },
                                     { value: 'nick_name', label: __('Nick name', 'block-development-examples') },
                                     { value: 'first_name', label: __('First Name', 'block-development-examples') },
                                 ]}
+                                onChange={(value) => setAttributes({ displayNameType: value })}
                             />
                         </PanelRow>
                         <PanelRow>
                             <RangeControl
-                                label={__('Number of birthdays to show ', 'block-development-examples')}
-                                value={attributes.limit}
-                                onChange={onChangeLimit}
+                                label={__('Number of birthdays to show', 'block-development-examples')}
+                                value={limit}
+                                onChange={(value) => setAttributes({ limit: value })}
                             />
                         </PanelRow>
                         <PanelRow>
                             <ComboboxControl
-                                __nextHasNoMarginBottom
                                 label={__('Field name', 'block-development-examples')}
-                                value={attributes.field}
-                                options={profileFields} // Dynamically populated options from the API
-                                onChange={onChangeField}
+                                value={xProfileField}
+                                options={profileFields}
+                                onChange={(value) => setAttributes({ xProfileField: value })}
                             />
                         </PanelRow>
                     </PanelBody>
                 </Panel>
             </InspectorControls>
-            <Members {...attributes}></Members>
+            <Members {...attributes} />
         </div>
     );
 }

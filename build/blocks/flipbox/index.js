@@ -22,12 +22,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/flipbox/editor.scss");
 
 
 
 
 
-const ALLOWED_BLOCKS = ['core/paragraph', 'core/image', 'core/heading']; // Adjust as needed
 
 const Edit = ({
   attributes,
@@ -39,7 +39,6 @@ const Edit = ({
     height,
     backgroundColorFront,
     backgroundColorBack,
-    textColorBack,
     padding,
     alignment
   } = attributes;
@@ -52,6 +51,8 @@ const Edit = ({
       height
     }
   });
+  const ALLOWED_BLOCKS = [['flipbox/front-content'], ['flipbox/back-content']];
+  const TEMPLATE = [['flipbox/front-content'], ['flipbox/back-content']];
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.AlignmentControl, {
     value: alignment,
     onChange: newAlign => setAttributes({
@@ -91,7 +92,7 @@ const Edit = ({
       width: `${value}px`
     }),
     min: 150,
-    max: 600
+    max: 4000
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Height (px)', 'flipbox'),
     value: parseInt(height, 10),
@@ -99,17 +100,15 @@ const Edit = ({
       height: `${value}px`
     }),
     min: 150,
-    max: 600
+    max: 4000
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Padding (px)', 'flipbox'),
     value: parseInt(padding, 10) || 0,
     onChange: value => setAttributes({
       padding: `${value}px`
-    }),
-    min: 0,
-    max: 50
+    })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.PanelColorSettings, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color Settings', 'flipbox'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Flip Box Background Color', 'flipbox'),
     colorSettings: [{
       value: backgroundColorFront,
       onChange: color => setAttributes({
@@ -122,47 +121,56 @@ const Edit = ({
         backgroundColorBack: color
       }),
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Back Background Color', 'flipbox')
-    }, {
-      value: textColorBack,
-      onChange: color => setAttributes({
-        textColorBack: color
-      }),
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Back Text Color', 'flipbox')
     }]
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "flip-card-inner"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: `flip-card-front ${selectedSide === 'front' ? 'is-selected' : ''}`,
+    className: `flip-card ${selectedSide === 'front' ? 'is-front-selected' : 'is-back-selected'}`,
     style: {
-      backgroundColor: backgroundColorFront,
+      backgroundColor: selectedSide === 'front' ? backgroundColorFront : backgroundColorBack,
       padding,
       textAlign: alignment // Apply alignment style
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
     allowedBlocks: ALLOWED_BLOCKS,
-    template: [['core/paragraph', {
-      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add content to the front...', 'flipbox')
-    }]],
-    templateLock: "all"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: `flip-card-back ${selectedSide === 'back' ? 'is-selected' : ''}`,
-    style: {
-      backgroundColor: backgroundColorBack,
-      color: textColorBack,
-      padding,
-      textAlign: alignment // Apply alignment style
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
-    allowedBlocks: ALLOWED_BLOCKS,
-    template: [['core/paragraph', {
-      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add content to the back...', 'flipbox')
-    }]],
-    templateLock: "all"
+    template: TEMPLATE,
+    templateLock: "all",
+    placeholder: [(`Add content to the ${selectedSide}...`, 'flipbox')]
   })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
+
+/***/ }),
+
+/***/ "./src/blocks/flipbox/front-content/front.js":
+/*!***************************************************!*\
+  !*** ./src/blocks/flipbox/front-content/front.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const BackContentEdit = () => {
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)({
+    className: 'flip-card-front'
+  });
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ...blockProps
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
+    templateLock: false
+  })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BackContentEdit);
 
 /***/ }),
 
@@ -179,6 +187,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/flipbox/edit.js");
 /* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/blocks/flipbox/save.js");
 /* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/blocks/flipbox/block.json");
+/* harmony import */ var _front_content_front__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./front-content/front */ "./src/blocks/flipbox/front-content/front.js");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  */
@@ -195,11 +204,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 /**
  * Every block starts by registering a new block type definition.
  */
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+});
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('flipbox/front-content', {
+  title: 'Front Content',
+  description: 'The block that appears in the front.',
+  parent: ['flipbox'],
+  category: 'wbcom-designs',
+  edit: _front_content_front__WEBPACK_IMPORTED_MODULE_5__["default"],
+  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+});
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('flipbox/back-content', {
+  title: 'Back Content',
+  description: 'The block that appears in the back.',
+  parent: ['flipbox'],
+  category: 'wbcom-designs',
+  edit: _front_content_front__WEBPACK_IMPORTED_MODULE_5__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 
@@ -230,7 +257,6 @@ const Save = ({
     height,
     backgroundColorFront,
     backgroundColorBack,
-    textColorBack,
     padding,
     alignment
   } = attributes;
@@ -241,28 +267,31 @@ const Save = ({
       height
     }
   });
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flip-card-inner"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flip-card-front",
-    style: {
-      backgroundColor: backgroundColorFront,
-      padding,
-      textAlign: alignment
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flip-card-back",
+    className: "flip-card-inner",
     style: {
       backgroundColor: backgroundColorBack,
-      color: textColorBack,
+      backgroundColor: backgroundColorFront,
       padding,
-      textAlign: alignment
+      textAlign: alignment // Apply alignment style
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Save);
+
+/***/ }),
+
+/***/ "./src/blocks/flipbox/editor.scss":
+/*!****************************************!*\
+  !*** ./src/blocks/flipbox/editor.scss ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
 
 /***/ }),
 
@@ -344,7 +373,7 @@ module.exports = window["wp"]["i18n"];
   \***************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wbcom-blocks/flipbox","version":"1.0.0","title":"Flip Box","category":"wbcom-designs","icon":"image-flip-horizontal","keywords":["flip","card","interactive"],"attributes":{"flipDirection":{"type":"string","default":"left-to-right"},"width":{"type":"string","default":"300px"},"height":{"type":"string","default":"300px"},"backgroundColorFront":{"type":"string","default":"#f1f1f1"},"backgroundColorBack":{"type":"string","default":"#333"},"textColorBack":{"type":"string","default":"#fff"},"customCSS":{"type":"string","default":""}},"supports":{"align":true,"html":false,"color":{"background":true,"text":true,"gradients":true},"customClassName":true},"textdomain":"flipbox","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wbcom-designs/flipbox","version":"1.0.0","title":"Flip Box","category":"wbcom-designs","icon":"image-flip-horizontal","keywords":["flip","card","interactive"],"attributes":{"flipDirection":{"type":"string","default":"left-to-right"},"width":{"type":"string","default":"500px"},"height":{"type":"string","default":"400px"},"padding":{"type":"string","default":"10px"},"backgroundColorFront":{"type":"string","default":"#f1f1f1"},"backgroundColorBack":{"type":"string","default":"#cccccc"}},"supports":{"align":true,"html":false,"customClassName":true},"textdomain":"flipbox","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

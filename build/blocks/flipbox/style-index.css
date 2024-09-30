@@ -2,13 +2,13 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/blocks/flipbox/style.scss ***!
   \******************************************************************************************************************************************************************************************************************************************************/
 /* Flip Card Wrapper */
-.flip-card {
+.wp-block-gutenberg-blocks-flipbox.flip-card {
   perspective: 1000px;
   display: block;
   position: relative;
 }
 
-.flip-card-inner {
+.wp-block-gutenberg-blocks-flipbox.flip-card > .flip-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
@@ -16,8 +16,8 @@
   transform-style: preserve-3d;
 }
 
-.flip-card-front,
-.flip-card-back {
+.wp-block-flipbox-front-content,
+.wp-block-flipbox-back-content {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -25,30 +25,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
   box-sizing: border-box;
 }
 
 /* Hidden back face */
-.flip-card-back {
+.wp-block-flipbox-back-content {
   transform: rotateY(180deg);
 }
 
 /* Flip directions */
-.flip-card:hover .flip-card-inner {
+.flip-card:hover > .flip-card-inner {
   transform: rotateY(180deg);
 }
 
-.flip-card.right-to-left:hover .flip-card-inner {
+.flip-card.right-to-left:hover > .flip-card-inner {
   transform: rotateY(-180deg);
 }
 
-.flip-card.top-to-bottom:hover .flip-card-inner {
+.flip-card.top-to-bottom:hover > .flip-card-inner,
+.flip-card.top-to-bottom:hover .wp-block-flipbox-back-content.flip-card {
   transform: rotateX(180deg);
 }
 
-.flip-card.bottom-to-top:hover .flip-card-inner {
+.flip-card.bottom-to-top:hover .wp-block-flipbox-back-content.flip-card,
+.flip-card.bottom-to-top:hover > .flip-card-inner {
   transform: rotateX(-180deg);
+}
+
+.wp-block-flipbox-back-content.flip-card .flip-card-inner,
+.wp-block-flipbox-front-content.flip-card .flip-card-inner {
+  transform: unset;
 }
 
 /* Responsive Design */

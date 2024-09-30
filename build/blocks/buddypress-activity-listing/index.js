@@ -43,18 +43,27 @@ function Edit({
 
   // Get the number of items from attributes
   const {
-    numberOfItems
+    numberOfItems,
+    activityType
   } = attributes;
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
+    let path = `buddypress/v1/activity?per_page=${numberOfItems}`;
+    if (activityType === 'my') {
+      // Fetch user-specific activities
+      path += `&user_id=1`;
+    } else if (activityType === 'favorites') {
+      // Fetch favorite activities
+      path += '&scope=favorites';
+    }
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5___default()({
-      path: 'buddypress/v1/activity'
+      path
     }).then(data => {
       setActivities(data);
     }).catch(error => {
       console.error('Error fetching activities:', error);
       setError(error.message);
     });
-  }, []);
+  }, [activityType, numberOfItems]);
 
   //exclude html
   const stripHTML = html => {
@@ -86,16 +95,32 @@ function Edit({
     return Math.floor(seconds) + ' seconds ago';
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Activity Settings', 'todo-list'),
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Activity Settings', 'buddypress-activity-listing'),
     initialOpen: true
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.RangeControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Number of Activities to Display', 'todo-list'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Number of Activities to Display', 'buddypress-activity-listing'),
     value: numberOfItems,
     onChange: newVal => setAttributes({
       numberOfItems: newVal
     }),
     min: 1,
     max: 20
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Activity Type', 'buddypress-activity-listing'),
+    value: activityType,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('All Activities', 'buddypress-activity-listing'),
+      value: 'all'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('My Activities', 'buddypress-activity-listing'),
+      value: 'my'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Favorite Activities', 'buddypress-activity-listing'),
+      value: 'favorites'
+    }],
+    onChange: newVal => setAttributes({
+      activityType: newVal
+    })
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps,
     style: {
@@ -105,7 +130,7 @@ function Edit({
     style: {
       color: 'black'
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('BuddyPress Activity Listing', 'todo-list')), error ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Error loading activities:', 'todo-list'), " ", error) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, activities.length === 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('No activities found.', 'todo-list')) : activities.slice(0, numberOfItems).map(activity => {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('BuddyPress Activity Listing', 'buddypress-activity-listing')), error ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Error loading activities:', 'buddypress-activity-listing'), " ", error) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, activities.length === 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('No activities found.', 'buddypress-activity-listing')) : activities.slice(0, numberOfItems).map(activity => {
     const content = activity.content ? stripHTML(activity.content.rendered) : 'No content';
     const avatarUrl = activity.user_avatar && activity.user_avatar.thumb;
     const activityTime = timeAgo(activity.date);
@@ -121,10 +146,7 @@ function Edit({
     }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
       className: "wb-activity-timedate"
     }, activityTitle, "\xA0\xA0", activityTime))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      style: {
-        marginTop: '10px',
-        color: 'black'
-      }
+      className: "wb-activity-content"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, content)));
   }))));
 }
@@ -320,7 +342,7 @@ module.exports = window["wp"]["i18n"];
   \***********************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wbcom-blocks/buddypress-activity-listing","version":"0.1.0","title":"Buddypress Activity Listing","category":"wbcom-designs","icon":"editor-ul","description":"Buddypress Activity Listing Block.","example":{},"supports":{"html":false},"textdomain":"buddypress-activity-listing","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"numberOfItems":{"type":"number","default":5}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"wbcom-blocks/buddypress-activity-listing","version":"0.1.0","title":"Buddypress Activity Listing","category":"wbcom-designs","icon":"editor-ul","description":"Buddypress Activity Listing Block.","example":{},"supports":{"html":false},"textdomain":"buddypress-activity-listing","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","render":"file:./render.php","attributes":{"numberOfItems":{"type":"number","default":5},"activityType":{"type":"string","default":"all"}}}');
 
 /***/ })
 

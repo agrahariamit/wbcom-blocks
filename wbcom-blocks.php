@@ -177,9 +177,8 @@ class WbcomBlocks {
 				)
 			);
 		}
-
 		foreach ( $blocks as $block ) {
-			register_block_type( __DIR__ . ' / build / blocks / ' . $block );
+			register_block_type( __DIR__ . '/build/blocks/' . $block );
 		}
 	}
 
