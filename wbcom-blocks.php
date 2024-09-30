@@ -129,16 +129,15 @@ class WbcomBlocks {
 	}
 
 	/**
-	 * Includes the necessary API class for BuddyPress birthday related functionality.
+	 * Includes the necessary API class for Wbcom Blocks related functionality.
 	 *
-	 * This function is responsible for including the 'class-api-buddypress-birthday.php' file
-	 * located in the 'includes/api' directory of the plugin. This file contains the necessary
-	 * functionality for interacting with BuddyPress birthday data.
 	 *
 	 * @return void
 	 */
 	public function include() {
-		require_once $this->get_path() . '/includes/api/class-api-buddypress-birthday.php';
+		if ( class_exists( 'BuddyPress' ) ) {
+			require_once $this->get_path() . '/includes/api/class-api-buddypress-birthday.php';
+		}
 	}
 
 	/**
@@ -164,15 +163,23 @@ class WbcomBlocks {
 	 */
 	public function wbcom_blocks_block_init() {
 		$blocks = array(
-			'buddypress-birthday',
-			'buddypress-members',
-			'buddypress-activity-listing',
 			'flipbox',
 			'heading',
 		);
 
+		if ( class_exists( 'BuddyPress' ) ) {
+			$blocks = array_merge(
+				$blocks,
+				array(
+					'buddypress-birthday',
+					'buddypress-members',
+					'buddypress-activity-listing',
+				)
+			);
+		}
+
 		foreach ( $blocks as $block ) {
-			register_block_type( __DIR__ . '/build/blocks/' . $block );
+			register_block_type( __DIR__ . ' / build / blocks / ' . $block );
 		}
 	}
 
