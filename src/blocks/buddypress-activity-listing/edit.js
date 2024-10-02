@@ -4,6 +4,7 @@ import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useState, useEffect } from '@wordpress/element';
 import { PanelBody, RangeControl, SelectControl, ToggleControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
+import { useSelect } from '@wordpress/data';
 import './editor.scss';
 
 
@@ -15,12 +16,17 @@ export default function Edit({ attributes, setAttributes }) {
     // Get the number of items from attributes
     const { numberOfItems, activityType, layout, showDate, avatarSize, hideHeading } = attributes;
 
+    // Get current user ID
+    const currentUserId = useSelect((select) => {
+        const user = select('core').getCurrentUser();
+        return user ? user.id : null; // Return null if user is not logged in
+    }, []);
+
     useEffect(() => {
         let path = `buddypress/v1/activity?per_page=${numberOfItems}`;
-    
         if (activityType === 'my') {
             // Fetch user-specific activities
-            path += `&user_id=1`;
+            path += `&user_id=${currentUserId}`;
         } else if (activityType === 'favorites') {
             // Fetch favorite activities
             path += '&scope=favorites';
