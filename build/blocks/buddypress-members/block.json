@@ -2,10 +2,10 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "wbcom-blocks/buddypress-members",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "title": "BuddyPress Members Block",
   "category": "wbcom-designs",
-  "icon": "wordpress",
+  "icon": "groups",
   "description": "A Members list of recently active, popular, and newest members with List, Grid and Carousel.",
   "example": {},
   "attributes": {
