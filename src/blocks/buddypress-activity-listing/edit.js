@@ -2,8 +2,9 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useState, useEffect } from '@wordpress/element';
-import { PanelBody, RangeControl, SelectControl } from '@wordpress/components';
+import { PanelBody, RangeControl, SelectControl, ToggleControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
+import { useSelect } from '@wordpress/data';
 import './editor.scss';
 
 
@@ -13,14 +14,19 @@ export default function Edit({ attributes, setAttributes }) {
     const [error, setError] = useState(null);
 
     // Get the number of items from attributes
-    const { numberOfItems, activityType } = attributes;
+    const { numberOfItems, activityType, layout, showDate, avatarSize, hideHeading } = attributes;
+
+    // Get current user ID
+    const currentUserId = useSelect((select) => {
+        const user = select('core').getCurrentUser();
+        return user ? user.id : null; // Return null if user is not logged in
+    }, []);
 
     useEffect(() => {
         let path = `buddypress/v1/activity?per_page=${numberOfItems}`;
-    
         if (activityType === 'my') {
             // Fetch user-specific activities
-            path += `&user_id=1`;
+            path += `&user_id=${currentUserId}`;
         } else if (activityType === 'favorites') {
             // Fetch favorite activities
             path += '&scope=favorites';
@@ -42,29 +48,50 @@ export default function Edit({ attributes, setAttributes }) {
     };
 
     const timeAgo = (date) => {
-        const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+        const now = new Date(); // Local current time
+        const activityDate = new Date(date + 'Z'); // Server activity time in UTC
+        const seconds = Math.floor((now - activityDate) / 1000);
+    
         let interval = Math.floor(seconds / 31536000);
-
-        if (interval > 1) {
-            return interval + ' years ago';
+        if (interval >= 1) {
+            return interval === 1 ? '1 year ago' : `${interval} years ago`;
         }
+    
         interval = Math.floor(seconds / 2592000);
-        if (interval > 1) {
-            return interval + ' months ago';
+        if (interval >= 1) {
+            return interval === 1 ? '1 month ago' : `${interval} months ago`;
         }
+    
         interval = Math.floor(seconds / 86400);
-        if (interval > 1) {
-            return interval + ' days ago';
+        if (interval >= 1) {
+            return interval === 1 ? '1 day ago' : `${interval} days ago`;
         }
+    
         interval = Math.floor(seconds / 3600);
-        if (interval > 1) {
-            return interval + ' hours ago';
+        if (interval >= 1) {
+            return interval === 1 ? '1 hour ago' : `${interval} hours ago`;
         }
+    
         interval = Math.floor(seconds / 60);
-        if (interval > 1) {
-            return interval + ' minutes ago';
+        if (interval >= 1) {
+            return interval === 1 ? '1 minute ago' : `${interval} minutes ago`;
         }
-        return Math.floor(seconds) + ' seconds ago';
+    
+        return `${Math.floor(seconds)} seconds ago`;
+    };
+    
+    
+    // Dynamic heading based on activityType
+    const getHeadingText = () => {
+        switch (activityType) {
+            case 'my':
+                return __('My Activities', 'buddypress-activity-listing');
+            case 'favorites':
+                return __('My Favorite Activities', 'buddypress-activity-listing');
+            case 'all':
+            default:
+                return __('All Activities', 'buddypress-activity-listing');
+        }
     };
 
     return (
@@ -78,6 +105,13 @@ export default function Edit({ attributes, setAttributes }) {
                         min={1}
                         max={20}
                     />
+                     <RangeControl
+                            label={__('Avatar Size', 'buddypress-activity-listing')}
+                            value={attributes.avatarSize}
+                            onChange={(newVal) => setAttributes({ avatarSize: newVal })}
+                            min={20}
+                            max={100}
+                        />
                     <SelectControl
                         label={__('Activity Type', 'buddypress-activity-listing')}
                         value={activityType}
@@ -88,11 +122,30 @@ export default function Edit({ attributes, setAttributes }) {
                         ]}
                         onChange={(newVal) => setAttributes({ activityType: newVal })}
                     />
+                     <SelectControl
+                     label={__('Display Layout', 'buddypress-activity-listing')}
+                     value={layout}
+                        options={[
+                            { label: __('List View', 'buddypress-activity-listing'), value: 'list' },
+                            { label: __('Grid View', 'buddypress-activity-listing'), value: 'grid' },
+                        ]}
+                        onChange={(newVal) => setAttributes({ layout: newVal })}
+                        />
+                        <ToggleControl
+                            label={__('Show Activity Date', 'buddypress-activity-listing')}
+                            checked={attributes.showDate}
+                            onChange={(newVal) => setAttributes({ showDate: newVal })}
+                        />
+                        <ToggleControl
+                            label={__('Hide Block Heading', 'buddypress-activity-listing')}
+                            checked={attributes.hideHeading}
+                            onChange={(newVal) => setAttributes({ hideHeading: newVal })}
+                        />
                 </PanelBody>
             </InspectorControls>
 
             <div {...blockProps} style={{ backgroundColor: 'transparent' }}>
-                <h2 style={{ color: 'black' }}>{__('BuddyPress Activity Listing', 'buddypress-activity-listing')}</h2>
+            {!attributes.hideHeading && <h2 style={{ color: 'black' }}>{getHeadingText()}</h2>}
                 {error ? (
                     <p>{__('Error loading activities:', 'buddypress-activity-listing')} {error}</p>
                 ) : (
@@ -104,19 +157,26 @@ export default function Edit({ attributes, setAttributes }) {
                                 const content = activity.content ? stripHTML( activity.content.rendered ) : 'No content';
                                 const avatarUrl = activity.user_avatar && activity.user_avatar.thumb;
                                 const activityTime = timeAgo(activity.date);
-                                const activityTitle = stripHTML(activity.title);
 
+                                const activityTitle = stripHTML(activity.title);
+                                const activityClass = layout === 'grid' ? 'activity-grid' : 'activity-list';
                                 return (
-                                    <li className="wb-activity-item" key={activity.id}>
+                                    <li className={`wb-activity-item ${activityClass}`} key={activity.id}>
                                         <div className="wb-activity-meta">
                                             {avatarUrl && (
                                                 <img className="wb-activity-user-avatar"
                                                     src={avatarUrl}
+                                                    style={{
+                                                        width: `${avatarSize}px`,
+                                                        height: `${avatarSize}px`
+                                                    }}
                                                 />
                                             )}
                                             <div>
                                                 <span className="wb-activity-timedate">
-                                                    {activityTitle}&nbsp;&nbsp;{activityTime}
+                                                    {activityTitle}{showDate && (
+                                                        <>&nbsp;&nbsp;<strong>{activityTime}</strong></>
+                                                    )}
                                                 </span>
                                             </div>
                                         </div>
