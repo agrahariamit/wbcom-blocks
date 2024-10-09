@@ -139,6 +139,7 @@ class WbcomBlocks {
 	 */
 	public function include() {
 		require_once $this->get_path() . '/includes/api/class-api-buddypress-birthday.php';
+		require_once $this->get_path() . '/includes/api/class-api-buddypress-members.php';
 	}
 
 	/**

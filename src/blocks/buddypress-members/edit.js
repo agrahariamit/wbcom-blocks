@@ -7,11 +7,41 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import './editor.scss';
 
+const MemberItem = ({ member, lastActivity, avatarSize, avatarRadius }) => {
+    return (
+        <div className="bp-member-item">
+            <a href={member.link}>
+                <img
+                    src={member.avatar_urls?.full}
+                    alt={member.name}
+                    className="bp-member-avatar"
+                    style={{
+                        width: `${avatarSize}px`,
+                        height: `${avatarSize}px`,
+                        borderRadius: `${avatarRadius}px`,
+                    }}
+                />
+            </a>
+            <div className="item-block">
+                <div className="bp-member-name">
+                    <a href={member.link}>
+                        {member.name}
+                    </a>
+                </div>
+                <div className="bp-member-last-activity">
+                    {lastActivity || __('No recent activity', 'buddypress-members')}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export default function Edit({ attributes, setAttributes }) {
     const { sortType, viewType, limit, avatarSize, avatarRadius, membersPerRow, rowSpacing, columnSpacing, innerSpacing, boxBorderRadius } = attributes;
     const blockProps = useBlockProps();
 
     const [members, setMembers] = useState([]);
+    const [lastActivity, setLastActivity] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -19,17 +49,22 @@ export default function Edit({ attributes, setAttributes }) {
         setIsLoading(true);
         setError(null);
 
-        let endpoint = `/buddypress/v1/members?per_page=${limit}&type=${sortType}`;
+        const memberEndpoint = `/buddypress/v1/members?per_page=${limit}&type=${sortType}`;
+        const activityEndpoint = `/buddypress/v1/members/last-activity?per_page=${limit}&type=${sortType}`;
 
-        apiFetch({ path: endpoint })
-            .then((response) => {
-                setMembers(response);
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                setError(__('Failed to load members', 'buddypress-members'));
-                setIsLoading(false);
-            });
+        Promise.all([
+            apiFetch({ path: memberEndpoint }),
+            apiFetch({ path: activityEndpoint }),
+        ])
+        .then(([membersData, lastActivityData]) => {
+            setMembers(membersData);
+            setLastActivity(lastActivityData.map(activity => activity.last_activity));
+            setIsLoading(false);
+        })
+        .catch(() => {
+            setError(__('Failed to load members', 'buddypress-members'));
+            setIsLoading(false);
+        });
     }, [sortType, limit]);
 
     return (
@@ -56,25 +91,16 @@ export default function Edit({ attributes, setAttributes }) {
                 </PanelBody>
                 <PanelBody title={__('Layout View', 'buddypress-members')}>
                     <ButtonGroup>
-                        <Button
-                            isPressed={viewType === 'list'}
-                            onClick={() => setAttributes({ viewType: 'list' })}
-                        >
-                            {__('List', 'buddypress-members')}
-                        </Button>
-                        <Button
-                            isPressed={viewType === 'grid'}
-                            onClick={() => setAttributes({ viewType: 'grid' })}
-                        >
-                            {__('Grid', 'buddypress-members')}
-                        </Button>
-                        <Button
-                            isPressed={viewType === 'carousel'}
-                            onClick={() => setAttributes({ viewType: 'carousel' })}
-                        >
-                            {__('Carousel', 'buddypress-members')}
-                        </Button>
-                    </ButtonGroup> 
+                        {['list', 'grid', 'carousel'].map((type) => (
+                            <Button
+                                key={type}
+                                isPressed={viewType === type}
+                                onClick={() => setAttributes({ viewType: type })}
+                            >
+                                {__(type.charAt(0).toUpperCase() + type.slice(1), 'buddypress-members')}
+                            </Button>
+                        ))}
+                    </ButtonGroup>
                 </PanelBody>
                 {(viewType === 'grid' || viewType === 'carousel') && (
                     <PanelBody title={__('Members Per Row', 'buddypress-members')}>
@@ -98,7 +124,7 @@ export default function Edit({ attributes, setAttributes }) {
                         />
                     </PanelBody>
                 )}
-                {(viewType === 'grid') && (
+                {viewType === 'grid' && (
                     <PanelBody title={__('Spacing', 'buddypress-members')}>
                         <RangeControl
                             label={__('Column Spacing (px)', 'buddypress-members')}
@@ -159,22 +185,15 @@ export default function Edit({ attributes, setAttributes }) {
                     <div>{__('No members found', 'buddypress-members')}</div>
                 ) : viewType === 'carousel' ? (
                     <div className="swiper-container">
-                        <Swiper
-                            slidesPerView={membersPerRow}
-                        >
-                            {members.map((member) => (
+                        <Swiper slidesPerView={membersPerRow}>
+                            {members.map((member, index) => (
                                 <SwiperSlide key={member.id}>
-                                    <div className="bp-member-item">
-                                        <a href={member.link}>
-                                            <img
-                                                src={member.avatar_urls.full}
-                                                alt={member.name}
-                                                className="bp-member-avatar"
-                                                style={{ width: `${avatarSize}px`, height: `${avatarSize}px`, borderRadius: `${avatarRadius}px` }}
-                                            />
-                                        </a>
-                                        <a href={member.link}><div className="bp-member-name">{member.name}</div></a>
-                                    </div>
+                                    <MemberItem
+                                        member={member}
+                                        lastActivity={lastActivity[index] || __('No recent activity', 'buddypress-members')}
+                                        avatarSize={avatarSize}
+                                        avatarRadius={avatarRadius}
+                                    />
                                 </SwiperSlide>
                             ))}
                             <div className="swiper-button-next"></div>
@@ -182,18 +201,14 @@ export default function Edit({ attributes, setAttributes }) {
                         </Swiper>
                     </div>
                 ) : (
-                    members.map((member) => (
-                        <div className="bp-member-item" key={member.id}>
-                            <a href={member.link}>
-                                <img
-                                    src={member.avatar_urls.full}
-                                    alt={member.name}
-                                    className="bp-member-avatar avatar"
-                                    style={{ width: `${avatarSize}px`, height: `${avatarSize}px`, borderRadius: `${avatarRadius}px` }}
-                                />
-                            </a>
-                            <a href={member.link}><div className="bp-member-name">{member.name}</div></a>
-                        </div>
+                    members.map((member, index) => (
+                        <MemberItem
+                            key={member.id}
+                            member={member}
+                            lastActivity={lastActivity[index] || __('No recent activity', 'buddypress-members')}
+                            avatarSize={avatarSize}
+                            avatarRadius={avatarRadius}
+                        />
                     ))
                 )}
             </div>
